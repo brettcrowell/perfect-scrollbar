@@ -1,5 +1,9 @@
 /* Copyright (c) 2012, 2014 Hyeonje Alex Jun and other contributors
  * Licensed under the MIT License
+ *
+ * Custom version of perfect-scrollbar forked to...
+ * https://github.com/brettcrowell/perfect-scrollbar
+ *
  */
 (function (factory) {
   'use strict';
