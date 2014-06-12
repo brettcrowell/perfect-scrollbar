@@ -28,7 +28,8 @@
     suppressScrollY: false,
     scrollXMarginOffset: 0,
     scrollYMarginOffset: 0,
-    includePadding: false
+    includePadding: false,
+    scrollDuration: 1000
   };
 
   var getEventClassName = (function () {
@@ -104,7 +105,7 @@
           isRtl = $this.css('direction') === "rtl",
           eventClassName = getEventClassName();
 
-      var updateContentScrollTop = function (currentTop, deltaY) {
+      var updateContentScrollTop = function (currentTop, deltaY, duration) {
         var newTop = currentTop + deltaY,
             maxTop = containerHeight - scrollbarYHeight;
 
@@ -119,13 +120,22 @@
         }
 
         var scrollTop = parseInt(scrollbarYTop * (contentHeight - containerHeight) / (containerHeight - scrollbarYHeight), 10);
-        $this.scrollTop(scrollTop);
+		
+        if(duration > 0){
+          $this.animate({scrollTop: (deltaY < containerHeight) ? deltaY : containerHeight }, duration); 
+        } else {
+          $this.scrollTop(scrollTop);
+        }
 
         if (isScrollbarXUsingBottom) {
           $scrollbarXRail.css({bottom: scrollbarXBottom - scrollTop});
         } else {
           $scrollbarXRail.css({top: scrollbarXTop + scrollTop});
         }
+      };
+	  
+      var scrollToY = function(deltaY){
+        updateContentScrollTop(0, parseInt(deltaY), settings.scrollDuration);
       };
 
       var updateContentScrollLeft = function (currentLeft, deltaX) {
@@ -662,6 +672,7 @@
         }
         $this.data('perfect-scrollbar', $this);
         $this.data('perfect-scrollbar-update', updateBarSizeAndPosition);
+        $this.data('perfect-scrollbar-scrollToY', scrollToY);
         $this.data('perfect-scrollbar-destroy', destroy);
       };
 
