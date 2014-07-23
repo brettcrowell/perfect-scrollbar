@@ -126,7 +126,7 @@
         var scrollTop = parseInt(scrollbarYTop * (contentHeight - containerHeight) / (containerHeight - scrollbarYHeight), 10);
 		
         if(duration > 0){
-          $this.animate({scrollTop: (deltaY < containerHeight) ? deltaY : containerHeight }, duration); 
+          $this.animate({scrollTop: scrollTop }, duration);
         } else {
           $this.scrollTop(scrollTop);
         }
@@ -139,7 +139,7 @@
       };
 	  
       var scrollToY = function(deltaY){
-        updateContentScrollTop(0, parseInt(deltaY), settings.scrollDuration);
+        updateContentScrollTop(0, (parseInt(deltaY) / contentHeight) * containerHeight, settings.scrollDuration);
       };
 
       var updateContentScrollLeft = function (currentLeft, deltaX) {
